@@ -3,23 +3,25 @@ services:
     name: pump-fun-sniper-bot
     env: node
     plan: starter
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NPM_CONFIG_PRODUCTION
+        value: false
       - key: PORT
         value: 10000
       - key: SOLANA_RPC_URL
         sync: false
-      - key: WALLET_PRIVATE_KEY
+      - key: BOT_WALLET_SECRET
         sync: false
       - key: TARGET_WALLET_ADDRESS
         sync: false
       - key: FIXED_BUY_AMOUNT
         value: "0.1"
-      - key: TARGET_TOKEN_MINT
-        sync: false
+      - key: SLIPPAGE_PERCENT
+        value: "25"
       - key: MIN_SOL_BALANCE
         value: "0.01"
       - key: MAX_SOL_PER_TRADE
