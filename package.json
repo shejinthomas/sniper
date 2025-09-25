@@ -5,7 +5,7 @@
   "main": "dist/webhook-server.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/webhook-server.js",
+    "start": "node -r ts-node/register/transpile-only src/webhook-server.ts",
     "dev": "ts-node src/webhook-server.ts",
     "webhook": "ts-node src/webhook-server.ts",
     "test-webhook": "node test-webhook.js"

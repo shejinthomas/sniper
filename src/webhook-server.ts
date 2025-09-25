@@ -23,8 +23,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Environment validation
 const RPC_URL = process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana.com';
-const TARGET_WALLET_ADDRESS = process.env.TARGET_WALLET_ADDRESS;
-const BOT_WALLET_SECRET = process.env.BOT_WALLET_SECRET;
+// Accept both correct and common misspelled env var names
+const TARGET_WALLET_ADDRESS = process.env.TARGET_WALLET_ADDRESS || process.env.TARGET_WALLET_ADDRES;
+// Support legacy/alternate env var name used in some configs
+const BOT_WALLET_SECRET = process.env.BOT_WALLET_SECRET || process.env.WALLET_PRIVATE_KEY;
 const FIXED_BUY_AMOUNT = parseFloat(process.env.FIXED_BUY_AMOUNT || '0.08'); // Default 0.08 SOL
 const SLIPPAGE_PERCENT = parseFloat(process.env.SLIPPAGE_PERCENT || '25'); // Default 5%
 
@@ -34,8 +36,8 @@ if (!TARGET_WALLET_ADDRESS) {
 }
 
 if (!BOT_WALLET_SECRET) {
-    console.error('❌ BOT_WALLET_SECRET environment variable is required');
-  process.exit(1);
+    console.error('❌ BOT_WALLET_SECRET (or WALLET_PRIVATE_KEY) environment variable is required');
+    process.exit(1);
 }
 
 // 2. Initialize Clients
@@ -349,7 +351,8 @@ app.use((error: any, req: Request, res: Response, next: any) => {
 // Self-ping function to keep server awake on Render
 function startSelfPing() {
     const pingInterval = 14 * 60 * 1000; // 14 minutes in milliseconds
-    const serverUrl = process.env.RENDER_EXTERNAL_URL || `https://sniper-tup2.onrender.com`;
+    // Accept either Render-provided URL or a custom SELF_URL
+    const serverUrl = process.env.RENDER_EXTERNAL_URL || process.env.SELF_URL || `https://sniper-tup2.onrender.com`;
     
     const pingServer = async () => {
         try {
