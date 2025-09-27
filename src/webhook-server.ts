@@ -28,7 +28,7 @@ const TARGET_WALLET_ADDRESS = process.env.TARGET_WALLET_ADDRESS || process.env.T
 // Support legacy/alternate env var name used in some configs
 const BOT_WALLET_SECRET = process.env.BOT_WALLET_SECRET || process.env.WALLET_PRIVATE_KEY;
 const FIXED_BUY_AMOUNT = parseFloat(process.env.FIXED_BUY_AMOUNT || '0.08'); // Default 0.08 SOL
-const SLIPPAGE_PERCENT = parseFloat(process.env.SLIPPAGE_PERCENT || '25'); // Default 5%
+const SLIPPAGE_PERCENT = parseFloat(process.env.SLIPPAGE_PERCENT || '50'); // Default 50%
 
 if (!TARGET_WALLET_ADDRESS) {
     console.error('❌ TARGET_WALLET_ADDRESS environment variable is required');
